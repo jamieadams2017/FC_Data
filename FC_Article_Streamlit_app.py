@@ -1,3 +1,14 @@
+# app.py
+# CSE Media Monitoring — Polished / Professional UI (NO sidebar)
+# This version includes:
+# ✅ Filter panel: time filters row + OTHER filters split into 2 rows
+#    Row A: Sort, Topic (with All), Geographic Scope, Media
+#    Row B: Factchecking Site, Comments, Format, Election Related
+# ✅ Search moved to "Filtered Articles Feed" section (feed-only search)
+# ✅ KPI row = 4 cards: Total Articles, Unique Articles (Sort=unique), Distinct Topics, Fact-checking Sites
+# ✅ Topic line chart: default shows Top 5 topics when Topic=["All"]; shows all selected topics when user selects specific ones
+# ✅ Media/Format/Scope tabs: Pie vs Line + optional numbers tables (default OFF)
+# ✅ Unique Streamlit keys for buttons; no duplicate-key crashes
 
 import math
 import hashlib
@@ -35,7 +46,7 @@ st.markdown(
 # ======================================================
 SPREADSHEET_ID = st.secrets.get("SPREADSHEET_ID", "")
 SHEET_TABS = st.secrets.get("SHEET_TABS", ["Sheet3"])
-TIMEZONE_LABEL = "Bangladesh"
+TIMEZONE_LABEL = "Dhaka"
 
 # Column names in your Google Sheet
 COL_DATE = "Date"
@@ -592,23 +603,23 @@ with topic_row:
                     st.dataframe(pivot, width="stretch", hide_index=True, height=240)
 
     with right:
-    st.subheader("Topic Distribution")
+        st.subheader("Topic Distribution")
 
-    topic_dist = safe_value_counts(df_f[COL_TOPIC]).reset_index()
-    topic_dist.columns = [COL_TOPIC, "Articles"]
+        topic_dist = safe_value_counts(df_f[COL_TOPIC]).reset_index()
+        topic_dist.columns = [COL_TOPIC, "Articles"]
 
-    if topic_dist.empty:
-        st.info("No topic data.")
-    else:
-        fig_topic = px.pie(topic_dist, names=COL_TOPIC, values="Articles", hole=0.5)
-        fig_topic.update_layout(margin=dict(l=10, r=10, t=10, b=10), height=420)
-        st.plotly_chart(fig_topic, width="stretch")
+        if topic_dist.empty:
+            st.info("No topic data.")
+        else:
+            fig_topic = px.pie(topic_dist, names=COL_TOPIC, values="Articles", hole=0.5)
+            fig_topic.update_layout(margin=dict(l=10, r=10, t=10, b=10), height=420)
+            st.plotly_chart(fig_topic, width="stretch")
 
-        if st.checkbox("Show numbers table", value=False, key="tbl_topic_pie"):
-            tbl = topic_dist.copy()
-            total = int(tbl["Articles"].sum()) if not tbl.empty else 0
-            tbl["Share %"] = (tbl["Articles"] / max(1, total) * 100).round(2)
-            st.dataframe(tbl, width="stretch", hide_index=True, height=240)
+            if st.checkbox("Show numbers table", value=False, key="tbl_topic_pie"):
+                tbl = topic_dist.copy()
+                total = int(tbl["Articles"].sum()) if not tbl.empty else 0
+                tbl["Share %"] = (tbl["Articles"] / max(1, total) * 100).round(2)
+                st.dataframe(tbl, width="stretch", hide_index=True, height=240)
 
 # ======================================================
 # MEDIA / FORMAT / SCOPE
