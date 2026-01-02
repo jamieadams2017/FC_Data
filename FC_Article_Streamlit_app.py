@@ -599,11 +599,6 @@ with topic_row:
 
         if topic_dist.empty:
             st.info("No topic data.")
-        else:
-            if len(topic_dist) > 9:
-                top = topic_dist.head(8)
-                others = pd.DataFrame({COL_TOPIC: ["Others"], "Articles": [topic_dist["Articles"].iloc[8:].sum()]})
-                topic_dist = pd.concat([top, others], ignore_index=True)
 
             fig_topic = px.pie(topic_dist, names=COL_TOPIC, values="Articles", hole=0.5)
             fig_topic.update_layout(margin=dict(l=10, r=10, t=10, b=10), height=420)
