@@ -770,7 +770,7 @@ with feed_box:
 
     with ctl1:
         feed_search = st.text_input(
-            "Search (Headline / Claim / Full Content)",
+            "Search (Headline / Claim / Full Article)",
             value="",
             placeholder="type and press enter…",
             key="feed_search",
@@ -874,12 +874,12 @@ with feed_box:
                             st.markdown("**Claim**")
                             st.write(claim)
                             st.markdown("---")
-                        st.markdown("**Full Content**")
-                        st.write(full if full else "(No full content)")
+                        st.markdown("**Full Article**")
+                        st.write(full if full else "(No full article)")
                     _show()
                 else:
                     st.markdown("**Full Article**")
-                    st.write(full if full else "(No full content)")
+                    st.write(full if full else "(No full article)")
 
     # 3 cards per row
     pos = start_i
