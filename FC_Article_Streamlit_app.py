@@ -1,14 +1,3 @@
-# app.py
-# CSE Media Monitoring — Polished / Professional UI (NO sidebar)
-# This version includes:
-# ✅ Filter panel: time filters row + OTHER filters split into 2 rows
-#    Row A: Sort, Topic (with All), Geographic Scope, Media
-#    Row B: Factchecking Site, Comments, Format, Election Related
-# ✅ Search moved to "Filtered Articles Feed" section (feed-only search)
-# ✅ KPI row = 4 cards: Total Articles, Unique Articles (Sort=unique), Distinct Topics, Fact-checking Sites
-# ✅ Topic line chart: default shows Top 5 topics when Topic=["All"]; shows all selected topics when user selects specific ones
-# ✅ Media/Format/Scope tabs: Pie vs Line + optional numbers tables (default OFF)
-# ✅ Unique Streamlit keys for buttons; no duplicate-key crashes
 
 import math
 import hashlib
@@ -46,7 +35,7 @@ st.markdown(
 # ======================================================
 SPREADSHEET_ID = st.secrets.get("SPREADSHEET_ID", "")
 SHEET_TABS = st.secrets.get("SHEET_TABS", ["Sheet3"])
-TIMEZONE_LABEL = "Dhaka"
+TIMEZONE_LABEL = "Bangladesh"
 
 # Column names in your Google Sheet
 COL_DATE = "Date"
