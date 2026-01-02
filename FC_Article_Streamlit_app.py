@@ -592,23 +592,23 @@ with topic_row:
                     st.dataframe(pivot, width="stretch", hide_index=True, height=240)
 
     with right:
-        st.subheader("Topic Distribution")
+    st.subheader("Topic Distribution")
 
-        topic_dist = safe_value_counts(df_f[COL_TOPIC]).reset_index()
-        topic_dist.columns = [COL_TOPIC, "Articles"]
+    topic_dist = safe_value_counts(df_f[COL_TOPIC]).reset_index()
+    topic_dist.columns = [COL_TOPIC, "Articles"]
 
-        if topic_dist.empty:
-            st.info("No topic data.")
+    if topic_dist.empty:
+        st.info("No topic data.")
+    else:
+        fig_topic = px.pie(topic_dist, names=COL_TOPIC, values="Articles", hole=0.5)
+        fig_topic.update_layout(margin=dict(l=10, r=10, t=10, b=10), height=420)
+        st.plotly_chart(fig_topic, width="stretch")
 
-            fig_topic = px.pie(topic_dist, names=COL_TOPIC, values="Articles", hole=0.5)
-            fig_topic.update_layout(margin=dict(l=10, r=10, t=10, b=10), height=420)
-            st.plotly_chart(fig_topic, width="stretch")
-
-            if st.checkbox("Show numbers table", value=False, key="tbl_topic_pie"):
-                tbl = topic_dist.copy()
-                total = int(tbl["Articles"].sum()) if not tbl.empty else 0
-                tbl["Share %"] = (tbl["Articles"] / max(1, total) * 100).round(2)
-                st.dataframe(tbl, width="stretch", hide_index=True, height=240)
+        if st.checkbox("Show numbers table", value=False, key="tbl_topic_pie"):
+            tbl = topic_dist.copy()
+            total = int(tbl["Articles"].sum()) if not tbl.empty else 0
+            tbl["Share %"] = (tbl["Articles"] / max(1, total) * 100).round(2)
+            st.dataframe(tbl, width="stretch", hide_index=True, height=240)
 
 # ======================================================
 # MEDIA / FORMAT / SCOPE
