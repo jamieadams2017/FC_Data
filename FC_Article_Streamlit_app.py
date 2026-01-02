@@ -61,7 +61,7 @@ COL_MEDIA = "Media"
 COL_FORMAT = "Format"
 COL_COMMENTS = "Comments"
 COL_CLAIM = "Claim"
-COL_FULL = "Full Content"
+COL_FULL = "Full Article"
 
 # Optional columns (won't break if missing)
 COL_PERSON = "Person"
