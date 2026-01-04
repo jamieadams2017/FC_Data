@@ -413,6 +413,9 @@ with filter_panel:
     df_f = apply_multiselect_filter(df_f, COL_SCOPE, sel_scope)
     df_f = apply_multiselect_filter(df_f, COL_MEDIA, sel_media)
     df_f = apply_multiselect_filter(df_f, COL_SITE, sel_site)
+    # Preserve a version of df_f with all NON-topic filters applied (used for % of total denominators)
+    df_f_base = df_f.copy()
+
 
     # Topic filter only if user removed "All"
     if sel_topic and "All" not in sel_topic:
@@ -565,6 +568,10 @@ with topic_row:
             # Denominator = ALL filtered articles in the bucket (not just selected topics)
             # -----------------------
             with tab_pct:
+                # Denominator for % charts should be based on all filtered articles EXCEPT the Topic filter
+                df_time_total = df_f_base.dropna(subset=[COL_DATE]).copy()
+                df_time_total["bucket"] = compute_bucket(df_time_total[COL_DATE], granularity)
+
                 df_topic = (
                     df_time[df_time[COL_TOPIC].astype(str).isin(chart_topics)]
                     .groupby(["bucket", COL_TOPIC], as_index=False)
@@ -574,7 +581,7 @@ with topic_row:
                 )
 
                 df_totals = (
-                    df_time.groupby("bucket", as_index=False)
+                    df_time_total.groupby("bucket", as_index=False)
                     .size()
                     .rename(columns={"size": "Total"})
                     .sort_values("bucket")
